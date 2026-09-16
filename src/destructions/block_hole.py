@@ -5,6 +5,7 @@ from math import pi, dist
 from src.block import block_group
 from src.player import player_group, client_group
 
+
 class BlackHole(pygame.sprite.Sprite):
     def __init__(self, *groups: Any):
         super().__init__()
@@ -17,73 +18,80 @@ class BlackHole(pygame.sprite.Sprite):
 
     def update(self, *args: Any):
         screen: pygame.Surface = args[0]
-        image = pygame.Surface((self.radius*2, self.radius*2), pygame.SRCALPHA)
-        rect = pygame.draw.circle(image, (0, 0, 0), (self.radius, self.radius), self.radius)
-        rect.center = self.xy # type: ignore
-        screen.blit(image, rect)
+        image = pygame.Surface((self.radius * 2, self.radius * 2), pygame.SRCALPHA)
+        rect = pygame.draw.circle(
+            image, (0, 0, 0), (self.radius, self.radius), self.radius
+        )
+        rect.center = self.xy
+        screen.blit(image, rect)  # blits the visible black hole
 
-        center = pygame.Surface((self.radius*2, self.radius*2), pygame.SRCALPHA)
-        pygame.draw.circle(center, (0, 0, 0), (self.radius, self.radius), self.radius/2)
+        center = pygame.Surface(
+            (self.radius * 2, self.radius * 2), pygame.SRCALPHA
+        )  # center-most part of circle, represents area where blocks get destroyed
+        pygame.draw.circle(
+            center, (0, 0, 0), (self.radius, self.radius), self.radius / 2
+        )
         mask = pygame.mask.from_surface(center)
 
-        bh_mass = (pi*(self.radius**2))
+        bh_mass = pi * (self.radius**2)
         for block in block_group:
             distance = dist(block.rect.center, rect.center)
 
-            dx = block.rect.centerx-rect.centerx
-            dy = block.rect.centery-rect.centery
+            dx = block.rect.centerx - rect.centerx
+            dy = block.rect.centery - rect.centery
 
             if distance == 0:
                 distance = 0.1
 
-            block.xv += -dx/distance*(bh_mass*0.000001)
-            block.yv += -dy/distance*(bh_mass*0.000001)
+            block.xv += -dx / distance * (bh_mass * 0.000001)
+            block.yv += -dy / distance * (bh_mass * 0.000001)
 
-            block_mask = pygame.mask.Mask(block.rect.size, fill=True)
             block_rect = block.rect
-            offset_x = block_rect.left-rect.left
-            offset_y = block_rect.top-rect.top
+            block_mask = pygame.mask.Mask(block_rect.size, fill=True)
+            offset_x = block_rect.left - rect.left
+            offset_y = block_rect.top - rect.top
 
             if mask.overlap(block_mask, (offset_x, offset_y)) != None:
                 block.kill()
-                bh_mass += (block.rect.width * block.rect.height)/4
-                self.radius = (bh_mass/pi)**(0.5)#16000/(pi*(self.radius**2))
+                bh_mass += (block.rect.width * block.rect.height) / 4
+                self.radius = (bh_mass / pi) ** (0.5)  # 16000/(pi*(self.radius**2))
 
         for player in player_group:
             distance = dist(player.rect.center, rect.center)
 
-            dx = player.rect.centerx-rect.centerx
-            dy = player.rect.centery-rect.centery
+            dx = player.rect.centerx - rect.centerx
+            dy = player.rect.centery - rect.centery
 
             if distance == 0:
                 distance = 0.1
-            
-            player.xv += -dx/distance*(bh_mass*0.00001)
-            player.yv += -dy/distance*(bh_mass*0.00001)
+
+            player.xv += -dx / distance * (bh_mass * 0.00001)
+            player.yv += -dy / distance * (bh_mass * 0.00001)
 
         for client in client_group:
             distance = dist(client.rect.center, rect.center)
 
-            dx = client.rect.centerx-rect.centerx
-            dy = client.rect.centery-rect.centery
+            dx = client.rect.centerx - rect.centerx
+            dy = client.rect.centery - rect.centery
 
             if distance == 0:
                 distance = 0.1
-            
-            client.xv += -dx/distance*(bh_mass*0.00001)
-            client.yv += -dy/distance*(bh_mass*0.00001)
-        
-        #self.radius += 10000/(pi*(self.radius**2))
+
+            client.xv += -dx / distance * (bh_mass * 0.00001)
+            client.yv += -dy / distance * (bh_mass * 0.00001)
+
+        # self.radius += 10000/(pi*(self.radius**2))
         self.timer -= 1
         if self.timer == 0:
             self.kill()
 
     def serialize(self):
-        return self.radius, (self.xy), (0, 0, 0), (self.radius*2, self.radius*2)
-    
+        return self.radius, (self.xy), (0, 0, 0), (self.radius * 2, self.radius * 2)
+
+
 if TYPE_CHECKING:
-    Type = pygame.sprite.Group[BlackHole] # type: ignore
+    Type = pygame.sprite.Group[BlackHole]  # type: ignore
 else:
     Type = pygame.sprite.Group
 
-black_hole_group: Type = pygame.sprite.Group() # type: ignore
+black_hole_group: Type = pygame.sprite.Group()  # type: ignore

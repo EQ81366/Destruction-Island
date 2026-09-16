@@ -4,11 +4,12 @@ from math import sin, cos, radians
 from random import randint
 from src.block import block_group
 
+
 class LaserLine(pygame.sprite.Sprite):
     def __init__(self, *groups: Any):
         super().__init__()
 
-        self.image = pygame.Surface((10, 1000), pygame.SRCALPHA)
+        self.image: pygame.Surface = pygame.Surface((10, 1000), pygame.SRCALPHA)
         self.angle = 0
         self.mod = 1
         self.times = randint(1, 4)
@@ -38,10 +39,13 @@ class LaserLine(pygame.sprite.Sprite):
             self.angle += self.mod
             if self.angle == 90 or self.angle == 270 or self.angle == -90:
                 self.mod *= -1
-                
+
         rotated = pygame.transform.rotate(self.image, self.angle)
         rotated_rect = rotated.get_rect(center=self.xy)
-        self.offset_xy = (int(sin(radians(self.angle))*500), int(cos(radians(self.angle))*500))
+        self.offset_xy = (
+            int(sin(radians(self.angle)) * 500),
+            int(cos(radians(self.angle)) * 500),
+        )
         rotated_rect.x += self.offset_xy[0]
         rotated_rect.y += self.offset_xy[1]
         screen.blit(rotated, rotated_rect)
@@ -51,8 +55,8 @@ class LaserLine(pygame.sprite.Sprite):
                 block_mask = pygame.mask.Mask(block.rect.size, fill=True)
                 top_left = rotated_rect.topleft
                 top_left_block = block.rect.topleft
-                offset_x = top_left_block[0]-top_left[0]
-                offset_y = top_left_block[1]-top_left[1]
+                offset_x = top_left_block[0] - top_left[0]
+                offset_y = top_left_block[1] - top_left[1]
                 if mask.overlap(block_mask, (offset_x, offset_y)) != None:
                     block.kill()
 
@@ -62,9 +66,10 @@ class LaserLine(pygame.sprite.Sprite):
     def serialize(self):
         return (self.xy, self.offset_xy, self.angle), self.color, self.image.get_size()
 
+
 if TYPE_CHECKING:
-    Type = pygame.sprite.Group[LaserLine] # type: ignore
+    Type = pygame.sprite.Group[LaserLine]  # type: ignore
 else:
     Type = pygame.sprite.Group
 
-laser_line_group: Type = pygame.sprite.Group() # type: ignore
+laser_line_group: Type = pygame.sprite.Group()  # type: ignore

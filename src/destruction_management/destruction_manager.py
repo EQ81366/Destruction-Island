@@ -12,29 +12,30 @@ else:
 
 destruction_group: Type = pygame.sprite.Group()
 
+
 class DestructionManager(pygame.sprite.Sprite):
     def __init__(self, *groups: Any):
         super().__init__()
 
         self.destruction = None
 
-    def spawn_destruction(self):
-        # 0-6
-        destruction = randint(6, 6)
-
+    #                                                     0-7
+    def spawn_destruction(self, destruction: int = randint(0, 7)):
         destruction_list = list(Destructions)
 
         self.destruction = destruction_list[destruction].value
         warning.new_destruction(destruction_list[destruction])
 
-        number = 1
+        number = 1  # default number of objects of that type spawned
+
+        # custom number of objects based on what's needed
         if destruction == 0:
             number = randint(3, 6)
         elif destruction == 5:
-            number = len(player_group)+len(client_group)
+            number = len(player_group) + len(client_group)
 
         for i in range(number):
-            self.destruction[1].add(self.destruction[0](i)) # type: ignore
+            self.destruction[1].add(self.destruction[0](i))  # type: ignore
 
         destruction_group.add(self.destruction[1])
 
@@ -48,3 +49,6 @@ class DestructionManager(pygame.sprite.Sprite):
             serialized.append(thing.serialize())
 
         return serialized
+
+
+destruction_manager = DestructionManager()

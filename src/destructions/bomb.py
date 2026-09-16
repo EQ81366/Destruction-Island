@@ -4,24 +4,26 @@ from typing import Any, TYPE_CHECKING
 from src.explosion_manager import explosion_group, Explosions
 from src.constants import DestructionImages
 
+
 class Bomb(pygame.sprite.Sprite):
     explosion_strength = 200
+
     def __init__(self, *groups: Any):
         super().__init__()
 
-        self.xy: list[float] = [randint(0, 1280), -150]
+        self.image: pygame.Surface = DestructionImages.BOMB.value
 
-        self.image = DestructionImages.BOMB.value
-
-        self.rect = pygame.Rect(self.xy[0], self.xy[1], self.image.get_width(), self.image.get_height())
-
+        self.rect: pygame.FRect = pygame.FRect(
+            randint(0, 1280), -150, self.image.get_width(), self.image.get_height()
+        )
 
         self.explode = False
-        #self.explosion_strength = 200
-        self.timer = 180 # frames
+        # self.explosion_strength = 200
+        self.timer = 180  # frames
 
         self.xv: float = randint(-3, 3)
         self.yv: float = randint(-2, 2)
+        self.yv = 0
 
     def update(self, *args: Any):
         if self.timer > 0:
@@ -38,10 +40,8 @@ class Bomb(pygame.sprite.Sprite):
                     self.yv = 0
                     self.xv = 0
 
-            self.xy[0] += self.xv
-            self.xy[1] += self.yv
-            self.rect.centerx = int(self.xy[0])
-            self.rect.centery = int(self.xy[1])
+            self.rect.centerx += self.xv
+            self.rect.centery += self.yv
 
             self.xv *= 0.99
 
@@ -54,12 +54,11 @@ class Bomb(pygame.sprite.Sprite):
             explosion_group.add(Explosions(self.explosion_strength, self.rect))
             self.kill()
 
-        if self.rect.top > 720: # if it goes below the map
+        if self.rect.top > 720:  # if it goes below the map
             self.kill()
 
     def serialize(self):
-        return (self.xy), DestructionImages.BOMB.name
-
+        return (self.rect.center), DestructionImages.BOMB.name
 
 
 if TYPE_CHECKING:

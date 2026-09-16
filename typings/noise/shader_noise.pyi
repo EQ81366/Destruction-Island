@@ -10,52 +10,51 @@ as described in "GPU Gems" chapter 5:
 http://http.developer.nvidia.com/GPUGems/gpugems_ch05.html
 """
 __version__ = ...
+
 class ShaderNoiseTexture:
-	"""tiling 3D noise texture with two channels for use by the
-	shader noise functions.
-	"""
-	def __init__(self, freq=..., width=...) -> None:
-		"""Generate the 3D noise texture.
+    """tiling 3D noise texture with two channels for use by the
+    shader noise functions.
+    """
 
-		freq -- frequency of generated noise over the width of the 
-		texture.
+    def __init__(self, freq=..., width=...) -> None:
+        """Generate the 3D noise texture.
 
-		width -- Width of the texture in texels. The texture is cubic,
-		thus all sides are the same width. Must be a power of two.
-		Using a larger width can reduce artifacts caused by linear
-		interpolation of the noise texture, at the cost of video
-		memory, and possibly slower texture access.
-		"""
-		...
-	
-	def load(self): # -> None:
-		"""Load the noise texture data into the current texture unit"""
-		...
-	
-	def enable(self): # -> None:
-		"""Convenience method to enable 3D texturing state so the texture may be used by the 
-		ffpnoise shader function
-		"""
-		...
-	
+        freq -- frequency of generated noise over the width of the
+        texture.
 
+        width -- Width of the texture in texels. The texture is cubic,
+        thus all sides are the same width. Must be a power of two.
+        Using a larger width can reduce artifacts caused by linear
+        interpolation of the noise texture, at the cost of video
+        memory, and possibly slower texture access.
+        """
+        ...
+
+    def load(self):  # -> None:
+        """Load the noise texture data into the current texture unit"""
+        ...
+
+    def enable(self):  # -> None:
+        """Convenience method to enable 3D texturing state so the texture may be used by the
+        ffpnoise shader function
+        """
+        ...
 
 shader_noise_glsl = ...
-if __name__ == '__main__':
-	win = ...
-	vert_shader = ...
-	frag_shader = ...
-	shader_prog = ...
-	tex = ...
-	quadratic = ...
-	spin = ...
-	def on_resize(width, height): # -> None:
-		...
-	
-	@win.event
-	def on_draw(): # -> None:
-		...
-	
-	def update(dt): # -> None:
-		...
-	
+if __name__ == "__main__":
+    win = ...
+    vert_shader = ...
+    frag_shader = ...
+    shader_prog = ...
+    tex = ...
+    quadratic = ...
+    spin = ...
+    def on_resize(width, height):  # -> None:
+        ...
+
+    @win.event
+    def on_draw():  # -> None:
+        ...
+
+    def update(dt):  # -> None:
+        ...
