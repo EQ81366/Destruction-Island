@@ -1,8 +1,10 @@
+from __future__ import annotations
 import pygame
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from src.constants import font_50
-from src.destruction_management.destruction_constants import Destructions
 
+if TYPE_CHECKING:
+    from src.destruction_management.destruction_constants import Destructions
 
 class Warning:
     def __init__(self, *groups: Any):

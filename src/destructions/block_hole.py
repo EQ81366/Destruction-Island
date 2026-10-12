@@ -7,6 +7,8 @@ from src.player import player_group, client_group
 
 
 class BlackHole(pygame.sprite.Sprite):
+    destruction_value = 1500
+    keybind = pygame.K_b
     def __init__(self, *groups: Any):
         super().__init__()
 
@@ -63,10 +65,10 @@ class BlackHole(pygame.sprite.Sprite):
             dy = player.rect.centery - rect.centery
 
             if distance == 0:
-                distance = 0.1
+                distance = 0.0001
 
-            player.xv += -dx / distance * (bh_mass * 0.00001)
-            player.yv += -dy / distance * (bh_mass * 0.00001)
+            player.xv += -dx / distance * (bh_mass * 0.000013)
+            player.yv += -dy / distance * (bh_mass * 0.000013)
 
         for client in client_group:
             distance = dist(client.rect.center, rect.center)
@@ -75,10 +77,10 @@ class BlackHole(pygame.sprite.Sprite):
             dy = client.rect.centery - rect.centery
 
             if distance == 0:
-                distance = 0.1
+                distance = 0.0001
 
-            client.xv += -dx / distance * (bh_mass * 0.00001)
-            client.yv += -dy / distance * (bh_mass * 0.00001)
+            client.xv += -dx / distance * (bh_mass * 0.000013)
+            client.yv += -dy / distance * (bh_mass * 0.000013)
 
         # self.radius += 10000/(pi*(self.radius**2))
         self.timer -= 1

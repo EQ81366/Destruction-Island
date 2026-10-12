@@ -2,9 +2,7 @@ import pygame
 from typing import Any, TYPE_CHECKING
 from src.constants import ButtonTypes, GameState, font_30
 from src.state_button import StateButton
-
-settings = {"nametags": True, "screenshake": True, "rubble": True}
-
+from src.stats import stat_manager
 
 class Button(pygame.sprite.Sprite):
     id = 0
@@ -16,9 +14,11 @@ class Button(pygame.sprite.Sprite):
         Button.id += 1
 
         self.rect: pygame.Rect = pygame.Rect(0, 0, 249, 50)
+        settings = stat_manager.get_settings()
+        settings = settings if type(settings) is dict else (stat_manager.Settings.DUMMY,)
         self.setting = list(settings)[self.id]
         self.text = font_30.render(
-            self.setting.capitalize(), True, "black"
+            str(self.setting.name).capitalize(), True, "black"
         ).convert_alpha()
         self.rect.center = groups[0]
 
@@ -68,7 +68,7 @@ class Button(pygame.sprite.Sprite):
                         self.rect.centery - self.text.get_height() / 2,
                     ),
                 )  # text
-                value = font_30.render(str(settings[self.setting]), True, "black")
+                value = font_30.render(str(stat_manager.settings[self.setting]), True, "black")
                 screen.blit(
                     value,
                     (
@@ -78,7 +78,8 @@ class Button(pygame.sprite.Sprite):
                 )
 
                 if clicked and self.rect.collidepoint(mouse_xy):
-                    settings[self.setting] = not settings[self.setting]
+                    #stat_manager.settings[self.setting] = not settings[self.setting]
+                    stat_manager.change_setting(self.setting, not stat_manager.get_setting(self.setting))
 
             elif self.type is ButtonTypes.SLIDE:
                 pass

@@ -7,6 +7,8 @@ from src.constants import DestructionImages
 
 class BigBomb(pygame.sprite.Sprite):
     explosion_strength = 500
+    destruction_value = 800
+    keybind = pygame.K_y
 
     def __init__(self, *groups: Any):
         super().__init__()

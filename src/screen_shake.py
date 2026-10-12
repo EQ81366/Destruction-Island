@@ -18,9 +18,9 @@ class Shake:
 
     def update(self):
         x = pnoise2(
-            self.shake_value, self.shake_value * 0.3 * self.seed, base=self.seed
+            self.shake_value, self.shake_value * 0.3 * self.seed, base=int(abs(self.seed))%1000, octaves=1 
         )
-        y = pnoise2(self.shake_value * 0.2, self.shake_value * 0.15, base=self.seed)
+        y = pnoise2(self.shake_value * 0.2, self.shake_value * 0.15, base=int(abs(self.seed))%1000, octaves=1)
         self.shake_x = x * self.shake_value
         self.shake_y = y * self.shake_value
         self.shake_value *= 0.9

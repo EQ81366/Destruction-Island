@@ -8,6 +8,8 @@ from src.constants import DestructionImages
 
 class Missile(pygame.sprite.Sprite):
     explosion_strength = 170
+    destruction_value = 150
+    keybind = pygame.K_o
 
     def __init__(self, *groups: Any):
         super().__init__()

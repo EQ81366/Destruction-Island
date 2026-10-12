@@ -5,9 +5,12 @@ from math import atan2, cos, sin
 from src.constants import DestructionImages
 from src.block import block_group
 from src.screen_shake import shake
+from src.explosion_manager import explosion_group, Explosions
 
 
 class Meteor(pygame.sprite.Sprite):
+    destruction_value = 1000
+    keybind = pygame.K_i
     def __init__(self, *groups: Any):
         super().__init__()
 
@@ -57,6 +60,7 @@ class Meteor(pygame.sprite.Sprite):
             if mask.overlap(block_mask, (offset_x, offset_y)) != None:
                 block.kill()
                 self.falling -= 1
+                explosion_group.add(Explosions(50, self.rect))
                 shake.add_shake(25)
 
         if self.rect.top > 720:  # if it goes below the map

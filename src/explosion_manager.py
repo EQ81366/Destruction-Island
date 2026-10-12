@@ -1,4 +1,4 @@
-import pygame, numpy
+import pygame
 from typing import Any, TYPE_CHECKING
 from math import dist
 from src.block import block_group

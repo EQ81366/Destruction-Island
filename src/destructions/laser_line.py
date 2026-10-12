@@ -6,13 +6,15 @@ from src.block import block_group
 
 
 class LaserLine(pygame.sprite.Sprite):
+    destruction_value = 600
+    keybind = pygame.K_l
     def __init__(self, *groups: Any):
         super().__init__()
 
         self.image: pygame.Surface = pygame.Surface((10, 1000), pygame.SRCALPHA)
         self.angle = 0
-        self.mod = 1
-        self.times = randint(1, 4)
+        self.mod = 5
+        self.times = randint(30, 60)
         self.cd = 0
         self.xy = (640, 0)
         self.offset_xy = (640, 0)
@@ -20,7 +22,7 @@ class LaserLine(pygame.sprite.Sprite):
 
     def update(self, *args: Any):
         screen: pygame.Surface = args[0]
-        number = randint(1, 300)
+        number = randint(1, 20)
         if number == 1 or self.cd > 0:
             self.color = (255, 0, 0, 255)
             pygame.draw.rect(self.image, self.color, self.image.get_rect())

@@ -2,7 +2,7 @@ import pygame
 from typing import Any, TYPE_CHECKING
 from src.constants import font_30, StateButtons, GameState, DEFAULT_GAME_STATE
 
-back_invalid = [GameState.ONE_PLAYER, GameState.TWO_PLAYER, GameState.MENU]
+back_invalid = [GameState.ONE_PLAYER, GameState.TWO_PLAYER, GameState.MENU, GameState.DESTROYER]
 
 
 class StateButton(pygame.sprite.Sprite):

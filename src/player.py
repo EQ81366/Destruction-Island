@@ -105,8 +105,8 @@ class Player(pygame.sprite.Sprite):
         if self.rect.colliderect(closest_rect_top):
             if (
                 self.yv < 0
-                and self.rect.top > closest_rect_top.centery
-                and abs(self.rect.centerx - closest_rect_top.centerx) < 33
+                and self.rect.top > closest_rect_top.bottom + self.yv - 10
+                # and abs(self.rect.centerx - closest_rect_top.centerx) < 33
             ):
                 self.rect.top = closest_rect_top.bottom
                 self.yv = 0

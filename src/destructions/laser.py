@@ -5,6 +5,8 @@ from src.block import block_group
 
 
 class Laser(pygame.sprite.Sprite):
+    destruction_value = 500
+    keybind = pygame.K_SEMICOLON
     def __init__(self, *groups: Any):
         super().__init__()
 

@@ -19,9 +19,16 @@ class DestructionManager(pygame.sprite.Sprite):
 
         self.destruction = None
 
-    #                                                     0-7
-    def spawn_destruction(self, destruction: int = randint(0, 7)):
+    #                                                     0-9
+    def spawn_destruction(self, destruction_number: int = -1, destruction_name: str = ""):
+        destruction = randint(0, 9) if destruction_number == -1 else destruction_number
+        # destruction = 9
         destruction_list = list(Destructions)
+
+        if destruction_name != "":
+            for i, thing in enumerate(Destructions):
+                if thing.name == destruction_name:
+                    destruction = i
 
         self.destruction = destruction_list[destruction].value
         warning.new_destruction(destruction_list[destruction])

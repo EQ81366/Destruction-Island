@@ -7,6 +7,8 @@ from src.player import player_group, client_group
 
 
 class WhiteHole(pygame.sprite.Sprite):
+    destruction_value = 800
+    keybind = pygame.K_p
     def __init__(self, *groups: Any):
         super().__init__()
 
@@ -56,7 +58,7 @@ class WhiteHole(pygame.sprite.Sprite):
                 distance = 0.1
 
             player.xv -= -dx / distance * ((pi * (self.radius**2)) * 0.000003)
-            player.yv -= -dy / distance * ((pi * (self.radius**2)) * 0.000003)
+            player.yv -= -dy / distance * ((pi * (self.radius**2)) * 0.000001)
 
         for client in client_group:
             distance = dist(client.rect.center, rect.center)
@@ -68,7 +70,7 @@ class WhiteHole(pygame.sprite.Sprite):
                 distance = 0.1
 
             client.xv -= -dx / distance * ((pi * (self.radius**2)) * 0.000003)
-            client.yv -= -dy / distance * ((pi * (self.radius**2)) * 0.000003)
+            client.yv -= -dy / distance * ((pi * (self.radius**2)) * 0.000001)
 
         # self.radius += 10000/(pi*(self.radius**2))
         self.timer -= 1

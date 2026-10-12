@@ -7,6 +7,8 @@ from src.destructions.big_bomb import big_bomb_group, BigBomb
 from src.destructions.laser import laser_group, Laser
 from src.destructions.white_hole import white_hole_group, WhiteHole
 from src.destructions.meteor import meteor_group, Meteor
+from src.destructions.bunker_missile import bunker_missile_group, BunkerMissile
+from src.destructions.thunderstorm import thunderstorm_group, Thunderstorm
 
 
 class Destructions(Enum):
@@ -18,3 +20,5 @@ class Destructions(Enum):
     LASER = Laser, laser_group  # 5
     WHITE_HOLE = WhiteHole, white_hole_group  # 6
     METEOR = Meteor, meteor_group  # 7
+    BUNKER_MISSILE = BunkerMissile, bunker_missile_group  # 8
+    THUNDERSTORM = Thunderstorm, thunderstorm_group  # 9
